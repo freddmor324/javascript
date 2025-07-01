@@ -3,10 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sistema de Gestión de Usuarios</title>
+    <link rel="stylesheet" href="styles.css">
     <script defer src="main.js"></script>
 </head>
 <body>
-    <h1> Registro de Usuarios para Evento!!! </h1>
+    <h1>Sistema de Gestión de Usuarios</h1>
+    
+    <div class="menu-container">
+        <button id="btn-ingresar">Ingresar Usuario</button>
+        <button id="btn-listar">Listar Usuarios</button>
+        <button id="btn-eliminar">Eliminar Usuario</button>
+    </div>
+    
+    <div id="ingresar-container" class="form-container">
+        <h2>Ingresar Nuevo Usuario</h2>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <div id="email-error" class="error-message"></div>
+        </div>
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" required>
+        </div>
+        <button id="btn-guardar" class="submit-btn">Guardar Usuario</button>
+        <div id="form-result" class="success-message"></div>
+    </div>
+    
+    <div id="listar-container" class="list-container">
+        <h2>Usuarios Registrados</h2>
+        <div id="user-list-container">
+        </div>
+    </div>
+    
+    <div id="eliminar-container" class="delete-container">
+        <h2>Eliminar Usuario</h2>
+        <div class="form-group">
+            <label for="email-eliminar">Email del usuario a eliminar:</label>
+            <input type="email" id="email-eliminar" required>
+        </div>
+        <button id="btn-confirmar-eliminar" class="submit-btn">Eliminar Usuario</button>
+        <div id="eliminar-result" class="success-message"></div>
+    </div>
 </body>
 </html>

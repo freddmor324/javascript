@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión de Usuarios</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script defer src="./js/main.js"></script>
 </head>
 <body>
@@ -12,6 +18,7 @@
     
     <div class="menu-container">
         <button id="btn-ingresar">Ingresar Usuario</button>
+        <button id="btn-editar">Editar Usuario</button>
         <button id="btn-listar">Listar Usuarios</button>
         <button id="btn-eliminar">Eliminar Usuario</button>
     </div>
@@ -28,11 +35,55 @@
             <input type="text" id="nombre" required>
         </div>
         <div class="form-group">
-            <label for="edad">Edad:</label>
-            <input type="number" id="edad" required>
+            <label for="fecha-nacimiento">Fecha de Nacimiento:</label>
+            <input type="text" id="fecha-nacimiento" placeholder="Selecciona tu fecha de nacimiento" required readonly>
+        </div>
+        <div class="form-group">
+            <label for="edad-calculada">Edad:</label>
+            <input type="text" id="edad-calculada" readonly placeholder="Se calculará automáticamente" style="background-color: #f5f5f5;">
         </div>
         <button id="btn-guardar" class="submit-btn">Guardar Usuario</button>
         <div id="form-result" class="success-message"></div>
+    </div>
+    
+    <div id="editar-container" class="form-container">
+        <h2>Editar Usuario</h2>
+        <div class="form-group">
+            <label for="email-buscar">Email del usuario a editar:</label>
+            <input type="email" id="email-buscar" required>
+            <button id="btn-buscar-usuario" class="submit-btn">Buscar Usuario</button>
+            <div id="buscar-result" class="error-message"></div>
+        </div>
+        
+        <div id="editar-form" style="display: none;">
+            <div class="form-group">
+                <label for="email-editar">Email:</label>
+                <input type="email" id="email-editar" required>
+                <div id="email-editar-error" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="nombre-editar">Nombre:</label>
+                <input type="text" id="nombre-editar" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha-nacimiento-editar">Fecha de Nacimiento:</label>
+                <input type="text" id="fecha-nacimiento-editar" placeholder="Selecciona la fecha de nacimiento" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="edad-calculada-editar">Edad:</label>
+                <input type="text" id="edad-calculada-editar" readonly placeholder="Se calculará automáticamente" style="background-color: #f5f5f5;">
+            </div>
+            <div class="form-group avatar-preview-container">
+                <label>Avatar del Usuario:</label>
+                <div id="avatar-preview" style="display: none;"></div>
+                <div class="avatar-actions">
+                    <button type="button" id="btn-cambiar-avatar" class="btn-cambiar-avatar">Cambiar Avatar</button>
+                </div>
+            </div>
+            <button id="btn-guardar-edicion" class="submit-btn">Guardar Cambios</button>
+            <button id="btn-cancelar-edicion" class="submit-btn" style="background-color: #f44336;">Cancelar</button>
+            <div id="editar-form-result" class="success-message"></div>
+        </div>
     </div>
     
     <div id="listar-container" class="list-container">

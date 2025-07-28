@@ -4,7 +4,6 @@ let usuariosRegistrados = [];
 // Función que simula una consulta al servidor para validar email único
 function validarEmailUnico(email, emailActual = null) {
     return new Promise((resolve, reject) => {
-        // Simular delay de 2 segundos para consulta al servidor
         setTimeout(() => {
             const emailExiste = usuariosRegistrados.some(usuario => 
                 usuario.email === email && usuario.email !== emailActual
@@ -22,7 +21,6 @@ function validarEmailUnico(email, emailActual = null) {
 // Función que simula el guardado de usuario en el servidor
 function guardarUsuarioEnServidor(usuario) {
     return new Promise((resolve, reject) => {
-        // Simular delay de 2 segundos para envío al servidor
         setTimeout(() => {
             try {
                 usuariosRegistrados.push(usuario);
@@ -38,7 +36,6 @@ function guardarUsuarioEnServidor(usuario) {
 // Función que simula la actualización de usuario en el servidor
 function actualizarUsuarioEnServidor(indice, usuarioActualizado) {
     return new Promise((resolve, reject) => {
-        // Simular delay de 2 segundos para actualización en servidor
         setTimeout(() => {
             try {
                 usuariosRegistrados[indice] = usuarioActualizado;
@@ -54,7 +51,6 @@ function actualizarUsuarioEnServidor(indice, usuarioActualizado) {
 // Función que simula la eliminación de usuario en el servidor
 function eliminarUsuarioEnServidor(indice) {
     return new Promise((resolve, reject) => {
-        // Simular delay de 2 segundos para eliminación en servidor
         setTimeout(() => {
             try {
                 const usuarioEliminado = usuariosRegistrados.splice(indice, 1)[0];
@@ -70,7 +66,6 @@ function eliminarUsuarioEnServidor(indice) {
 // Función que simula la carga de usuarios desde el servidor
 function cargarUsuariosDesdeServidor() {
     return new Promise((resolve, reject) => {
-        // Simular delay de 2 segundos para carga desde servidor
         setTimeout(() => {
             try {
                 const usuariosGuardados = localStorage.getItem('usuariosRegistrados');
@@ -90,10 +85,8 @@ function cargarUsuariosDesdeServidor() {
 // Función para obtener un avatar aleatorio desde JSONPlaceholder
 async function obtenerAvatarAleatorio() {
     try {
-        // Generar un ID aleatorio entre 1 y 5000 (rango de fotos disponibles)
         const randomId = Math.floor(Math.random() * 5000) + 1;
         
-        // Hacer fetch a JSONPlaceholder Photos
         const response = await fetch(`https://jsonplaceholder.typicode.com/photos/${randomId}`);
         
         if (!response.ok) {
@@ -102,9 +95,7 @@ async function obtenerAvatarAleatorio() {
         
         const photoData = await response.json();
         
-        // Verificar que la URL sea válida
         if (photoData.thumbnailUrl && photoData.thumbnailUrl.includes('via.placeholder.com')) {
-            // Si es una URL de placeholder, usar Picsum en su lugar
             const pictureSeed = Math.floor(Math.random() * 1000) + 1;
             return {
                 url: `https://picsum.photos/150/150?random=${pictureSeed}`,
@@ -113,7 +104,6 @@ async function obtenerAvatarAleatorio() {
             };
         }
         
-        // Retornar la URL de JSONPlaceholder si está disponible
         return {
             url: photoData.thumbnailUrl,
             titulo: photoData.title,
@@ -121,7 +111,6 @@ async function obtenerAvatarAleatorio() {
         };
     } catch (error) {
         console.error('Error al obtener avatar:', error);
-        // Retornar un avatar usando Picsum como fallback
         const pictureSeed = Math.floor(Math.random() * 1000) + 1;
         return {
             url: `https://picsum.photos/150/150?random=${pictureSeed}`,
@@ -193,7 +182,6 @@ function validarEdadMinima(edad) {
 
 // Función para inicializar los selectores de fecha
 function inicializarSelectoresFecha() {
-    // Selector para el formulario de ingreso
     flatpickr("#fecha-nacimiento", {
         dateFormat: "d/m/Y",
         locale: "es",
@@ -204,7 +192,6 @@ function inicializarSelectoresFecha() {
                 const edad = calcularEdad(selectedDates[0]);
                 document.getElementById('edad-calculada').value = edad + ' años';
                 
-                // Validar edad mínima en tiempo real
                 if (edad < 18) {
                     document.getElementById('edad-calculada').style.color = '#f44336';
                 } else {
@@ -214,7 +201,6 @@ function inicializarSelectoresFecha() {
         }
     });
 
-    // Selector para el formulario de edición
     flatpickr("#fecha-nacimiento-editar", {
         dateFormat: "d/m/Y",
         locale: "es",
@@ -225,7 +211,6 @@ function inicializarSelectoresFecha() {
                 const edad = calcularEdad(selectedDates[0]);
                 document.getElementById('edad-calculada-editar').value = edad + ' años';
                 
-                // Validar edad mínima en tiempo real
                 if (edad < 18) {
                     document.getElementById('edad-calculada-editar').style.color = '#f44336';
                 } else {
@@ -242,16 +227,16 @@ function mostrarToast(mensaje, tipo) {
     
     switch(tipo) {
         case 'success':
-            backgroundColor = '#4CAF50'; // Verde
+            backgroundColor = '#4CAF50';
             break;
         case 'warning':
-            backgroundColor = '#FF9800'; // Amarillo/Naranja
+            backgroundColor = '#FF9800';
             break;
         case 'error':
-            backgroundColor = '#f44336'; // Rojo
+            backgroundColor = '#f44336';
             break;
         default:
-            backgroundColor = '#2196F3'; // Azul por defecto
+            backgroundColor = '#2196F3';
     }
     
     Toastify({
@@ -282,11 +267,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     const btnCancelarEdicion = document.getElementById('btn-cancelar-edicion');
     const btnConfirmarEliminar = document.getElementById('btn-confirmar-eliminar');
     
-    // Mostrar mensaje de carga inicial
     console.log('Cargando usuarios desde el servidor...');
     
     try {
-        // Cargar usuarios con promesa (2 segundos de delay)
         const usuarios = await cargarUsuariosDesdeServidor();
         usuariosRegistrados = usuarios;
         console.log('Usuarios cargados exitosamente:', usuarios.length);
@@ -296,7 +279,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         usuariosRegistrados = [];
     }
     
-    // Inicializar los selectores de fecha
     inicializarSelectoresFecha();
     
     btnIngresar.addEventListener('click', function() {
@@ -340,7 +322,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         eliminarUsuario();
     });
     
-    // Event listener para cambiar avatar
     document.addEventListener('click', function(event) {
         if (event.target && event.target.id === 'btn-cambiar-avatar') {
             cambiarAvatarUsuario();
@@ -373,44 +354,34 @@ async function ingresarUsuario() {
     const fechaNacimientoInput = document.getElementById('fecha-nacimiento');
     const emailError = document.getElementById('email-error');
     
-    // Validar que todos los campos estén completos
     if (!emailInput.value || !nombreInput.value || !fechaNacimientoInput.value) {
         mostrarToast('Por favor, completa todos los campos.', 'error');
         return;
     }
     
-    // Calcular la edad basada en la fecha de nacimiento
     const fechaNac = flatpickr.parseDate(fechaNacimientoInput.value, "d/m/Y");
     const edad = calcularEdad(fechaNac);
     
-    // Validar edad mínima de 18 años
     if (!validarEdadMinima(edad)) {
         return;
     }
     
-    // Deshabilitar botón y mostrar carga
     toggleBoton('btn-guardar', true, 'Guardar Usuario', 'Validando...');
     mostrarCargando('form-result', 'Validando email único...');
     
     try {
-        // Validar email único con promesa (2 segundos de delay)
         await validarEmailUnico(emailInput.value);
         
-        // Limpiar mensaje de error de email
         emailError.textContent = '';
         
-        // Mostrar mensaje de obtención de avatar
         mostrarCargando('form-result', 'Obteniendo avatar...');
         toggleBoton('btn-guardar', true, 'Guardar Usuario', 'Obteniendo avatar...');
         
-        // Obtener avatar aleatorio desde JSONPlaceholder
         const avatarData = await obtenerAvatarAleatorio();
         
-        // Mostrar mensaje de guardado
         mostrarCargando('form-result', 'Guardando usuario...');
         toggleBoton('btn-guardar', true, 'Guardar Usuario', 'Guardando...');
         
-        // Crear usuario
         const nuevoUsuario = {
             email: emailInput.value,
             nombre: nombreInput.value,
@@ -419,14 +390,11 @@ async function ingresarUsuario() {
             avatar: avatarData
         };
         
-        // Guardar usuario con promesa (2 segundos de delay)
         await guardarUsuarioEnServidor(nuevoUsuario);
         
-        // Mostrar mensaje de éxito
         mostrarToast(`Usuario ${nuevoUsuario.nombre} registrado exitosamente.`, 'success');
         ocultarCargando('form-result');
         
-        // Limpiar formulario después de 1 segundo
         setTimeout(() => {
             limpiarFormulario();
             toggleBoton('btn-guardar', false, 'Guardar Usuario');
@@ -435,7 +403,6 @@ async function ingresarUsuario() {
         console.log(`Usuario ${nuevoUsuario.nombre} registrado exitosamente.`);
         
     } catch (error) {
-        // Manejar errores de validación o guardado
         emailError.textContent = error;
         mostrarToast(error, 'error');
         ocultarCargando('form-result');
@@ -446,7 +413,6 @@ async function ingresarUsuario() {
 function actualizarListaUsuarios() {
     const userListContainer = document.getElementById('user-list-container');
     
-    // Debug para verificar los datos
     debugUsuarios();
     
     if (usuariosRegistrados.length === 0) {
@@ -460,7 +426,6 @@ function actualizarListaUsuarios() {
     for (let i = 0; i < usuariosRegistrados.length; i++) {
         const usuario = usuariosRegistrados[i];
         
-        // Determinar la URL del avatar con mejor fallback
         let avatarUrl = 'https://picsum.photos/150/150?random=' + (i + 1);
         let avatarTitulo = 'Avatar del usuario';
         
@@ -513,26 +478,21 @@ async function eliminarUsuario() {
         return;
     }
     
-    // Deshabilitar botón y mostrar carga
     toggleBoton('btn-confirmar-eliminar', true, 'Eliminar Usuario', 'Eliminando...');
     mostrarCargando('eliminar-result', 'Eliminando usuario del servidor...');
     
     try {
-        // Eliminar usuario con promesa (2 segundos de delay)
         const usuarioEliminado = await eliminarUsuarioEnServidor(indice);
         
-        // Mostrar mensaje de eliminación exitosa
         mostrarToast(`Usuario ${usuarioEliminado.nombre} eliminado exitosamente.`, 'error');
         ocultarCargando('eliminar-result');
         
-        // Limpiar campo después de 1 segundo
         setTimeout(() => {
             emailInput.value = '';
             toggleBoton('btn-confirmar-eliminar', false, 'Eliminar Usuario');
         }, 1000);
         
     } catch (error) {
-        // Manejar errores de eliminación
         mostrarToast(error, 'error');
         ocultarCargando('eliminar-result');
         toggleBoton('btn-confirmar-eliminar', false, 'Eliminar Usuario');
@@ -544,7 +504,7 @@ function limpiarFormulario() {
     document.getElementById('nombre').value = '';
     document.getElementById('fecha-nacimiento').value = '';
     document.getElementById('edad-calculada').value = '';
-    document.getElementById('edad-calculada').style.color = ''; // Restablecer color
+    document.getElementById('edad-calculada').style.color = '';
     document.getElementById('email-error').textContent = '';
     document.getElementById('form-result').textContent = '';
 }
@@ -583,34 +543,27 @@ function buscarUsuarioParaEditar() {
         usuarioEnEdicion = { ...usuariosRegistrados[indice] };
         indiceUsuarioEnEdicion = indice;
         
-        // Cargar los datos del usuario en el formulario de edición
         document.getElementById('email-editar').value = usuarioEnEdicion.email;
         document.getElementById('nombre-editar').value = usuarioEnEdicion.nombre;
         
-        // Cargar la fecha de nacimiento si existe
         if (usuarioEnEdicion.fechaNacimiento) {
             document.getElementById('fecha-nacimiento-editar').value = usuarioEnEdicion.fechaNacimiento;
             document.getElementById('edad-calculada-editar').value = usuarioEnEdicion.edad + ' años';
         } else {
-            // Si no tiene fecha de nacimiento (usuarios antiguos), usar la edad directamente
             document.getElementById('fecha-nacimiento-editar').value = '';
             document.getElementById('edad-calculada-editar').value = usuarioEnEdicion.edad + ' años (sin fecha de nacimiento)';
         }
         
-        // Mostrar el formulario de edición
         editarForm.style.display = 'block';
         buscarResult.textContent = `Usuario encontrado: ${usuarioEnEdicion.nombre}`;
         buscarResult.className = 'success-message';
         
-        // Mostrar avatar actual si existe
         if (usuarioEnEdicion.avatar) {
             mostrarVistaPreviewAvatar(usuarioEnEdicion.avatar);
         }
         
-        // Mostrar toast de usuario encontrado
         mostrarToast(`Usuario encontrado: ${usuarioEnEdicion.nombre}`, 'success');
         
-        // Limpiar mensajes de error previos
         document.getElementById('email-editar-error').textContent = '';
         document.getElementById('editar-form-result').textContent = '';
     } else {
@@ -629,7 +582,6 @@ async function guardarEdicionUsuario() {
     const emailEditarError = document.getElementById('email-editar-error');
     const editarFormResult = document.getElementById('editar-form-result');
     
-    // Validar que todos los campos estén completos
     if (!emailEditar.value || !nombreEditar.value || !fechaNacimientoEditar.value) {
         mostrarToast('Por favor, completa todos los campos.', 'error');
         editarFormResult.textContent = 'Por favor, completa todos los campos.';
@@ -637,43 +589,34 @@ async function guardarEdicionUsuario() {
         return;
     }
     
-    // Calcular la edad basada en la fecha de nacimiento
     const fechaNac = flatpickr.parseDate(fechaNacimientoEditar.value, "d/m/Y");
     const edad = calcularEdad(fechaNac);
     
-    // Validar edad mínima de 18 años
     if (!validarEdadMinima(edad)) {
         return;
     }
     
-    // Deshabilitar botón y mostrar carga
     toggleBoton('btn-guardar-edicion', true, 'Guardar Cambios', 'Validando...');
     mostrarCargando('editar-form-result', 'Validando email único...');
     
     try {
-        // Validar email único (excepto el usuario actual)
         await validarEmailUnico(emailEditar.value, usuarioEnEdicion.email);
         
-        // Limpiar mensaje de error de email
         emailEditarError.textContent = '';
         
-        // Mostrar mensaje de actualización
         mostrarCargando('editar-form-result', 'Actualizando usuario...');
         toggleBoton('btn-guardar-edicion', true, 'Guardar Cambios', 'Actualizando...');
         
-        // Crear usuario actualizado
         const usuarioActualizado = {
             email: emailEditar.value,
             nombre: nombreEditar.value,
             fechaNacimiento: fechaNacimientoEditar.value,
             edad: edad,
-            avatar: usuarioEnEdicion.avatar // Mantener el avatar existente
+            avatar: usuarioEnEdicion.avatar
         };
         
-        // Actualizar usuario con promesa (2 segundos de delay)
         await actualizarUsuarioEnServidor(indiceUsuarioEnEdicion, usuarioActualizado);
         
-        // Mostrar mensaje de éxito
         mostrarToast(`Usuario ${nombreEditar.value} actualizado exitosamente.`, 'warning');
         ocultarCargando('editar-form-result');
         
@@ -682,14 +625,12 @@ async function guardarEdicionUsuario() {
         
         console.log(`Usuario ${nombreEditar.value} actualizado exitosamente.`);
         
-        // Limpiar después de 1 segundo
         setTimeout(() => {
             limpiarFormularioEdicion();
             toggleBoton('btn-guardar-edicion', false, 'Guardar Cambios');
         }, 1000);
         
     } catch (error) {
-        // Manejar errores de validación o actualización
         emailEditarError.textContent = error;
         mostrarToast(error, 'error');
         ocultarCargando('editar-form-result');
@@ -707,13 +648,10 @@ async function cambiarAvatarUsuario() {
     try {
         mostrarToast('Obteniendo nuevo avatar...', 'default');
         
-        // Obtener nuevo avatar aleatorio
         const nuevoAvatar = await obtenerAvatarAleatorio();
         
-        // Actualizar el avatar del usuario en edición
         usuarioEnEdicion.avatar = nuevoAvatar;
         
-        // Mostrar el nuevo avatar en la vista previa
         mostrarVistaPreviewAvatar(nuevoAvatar);
         
         mostrarToast('Avatar actualizado exitosamente.', 'success');
@@ -765,13 +703,12 @@ function limpiarFormularioEdicion() {
     document.getElementById('nombre-editar').value = '';
     document.getElementById('fecha-nacimiento-editar').value = '';
     document.getElementById('edad-calculada-editar').value = '';
-    document.getElementById('edad-calculada-editar').style.color = ''; // Restablecer color
+    document.getElementById('edad-calculada-editar').style.color = '';
     document.getElementById('buscar-result').textContent = '';
     document.getElementById('email-editar-error').textContent = '';
     document.getElementById('editar-form-result').textContent = '';
     document.getElementById('editar-form').style.display = 'none';
     
-    // Ocultar vista previa del avatar
     const previewContainer = document.getElementById('avatar-preview');
     if (previewContainer) {
         previewContainer.style.display = 'none';
